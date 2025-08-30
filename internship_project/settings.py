@@ -37,7 +37,37 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'tasks',
+    'drf_yasg',
 ]
+
+# Add JWT authentication and default permissions
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # ensures endpoints require login
+    ),
+}
+
+# Swagger JWT setup
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': "JWT Authorization header using the Bearer scheme. Example: 'Bearer <token>'",
+        }
+    },
+    'USE_SESSION_AUTH': False,  # disable Basic Auth
+}
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,8 +106,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'internship_db',
-        'USER': 'intern_user',
-        'PASSWORD': '12345',
+        'USER': 'postgres',
+        'PASSWORD': 'Sam@123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -124,3 +154,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.User' 
+
+DEBUG = True
+
